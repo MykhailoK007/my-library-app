@@ -1,8 +1,9 @@
-import { Slot ,Redirect} from "expo-router"
+import { Slot ,Redirect, Tabs} from "expo-router"
 import { useEffect, useState } from "react";
-import { SafeAreaView, View } from "react-native";
-import { Provider as PaperProvider, Text } from "react-native-paper";
+import { SafeAreaView, ScrollView, View } from "react-native";
+import { Button, Icon, IconButton, Provider as PaperProvider, Text } from "react-native-paper";
 import * as SecureStore from 'expo-secure-store';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 const AuthorizedLayout = () => {
   const [authorized, setAuthorized] = useState(false);
@@ -19,12 +20,30 @@ const AuthorizedLayout = () => {
   if(!authorized) return <Redirect href='/signin'/>
   return (
     <PaperProvider>
-    <SafeAreaView>
-      <View style={{paddingHorizontal: 24}}>
-        <Slot/>
-        <Text>Bottom menu</Text>
-      </View>
-    </SafeAreaView>
+      <Tabs screenOptions={{ headerShown: false, tabBarStyle: {height: 60} }}>
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: 'Library',
+            tabBarIcon: ({color}) => <FontAwesome size={28} name="book" color={color} />
+          }}
+        />
+        <Tabs.Screen
+
+          name="account"
+          options={{
+            title: 'Account',
+            tabBarIcon: ({ color }) => <FontAwesome size={28} name="user" color={color} />,
+          }}
+        />
+        <Tabs.Screen
+          name="settings"
+          options={{
+            title: 'Settings',
+            tabBarIcon: ({ color }) => <FontAwesome size={28} name="cog" color={color} />,
+          }}
+        />
+    </Tabs>
   </PaperProvider>
 
   )
